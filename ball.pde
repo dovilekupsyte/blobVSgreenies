@@ -1,20 +1,27 @@
 class Ball
 {
   PVector pos;
-  PVector up;
+  PVector upright;
   PVector forward;
+  float radius;
+  float angle;
+  float frequency;
   float size;
   float eyes;
   float iris;
   
   Ball(float x, float y)
   {
+    this.radius=50;
+    this.angle-=frequency;
+    this.frequency=2;
     pos = new PVector(x, y);
-    up = new PVector(0, -5);
+    upright = new PVector(+radius, +(75+sin(radians(angle))*(radius)));
     forward = new PVector(+1, 0);
     this.size=25;
     this.eyes=6;
     this.iris=3;
+    
   }
 
   Ball()
@@ -26,20 +33,17 @@ class Ball
 
     if (keyPressed)
     {
-      if (key==CODED)
+      if (key=='w')
       {
-        if (keyCode==UP)
-        {
-          pos.add(up);
-        }
-        if(keyCode==LEFT);
-        {
-          pos.sub(forward);
-        }
-        if(keyCode==RIGHT)
-        {
-          pos.add(forward);
-        }
+         pos.add(upright);
+      }
+      if (key=='d')
+      {
+        pos.add(forward);
+      }
+      if (key=='a')
+      {
+        pos.sub(forward);
       }
     }
   }
