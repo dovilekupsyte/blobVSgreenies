@@ -1,5 +1,10 @@
 class Blob extends GameObject
 {
+  PVector velocity;
+  float gravity;
+  float jump;
+  float speed;
+  float ground;
   char move;
   char left;
   char right;
@@ -12,9 +17,14 @@ class Blob extends GameObject
     super(width*0.5f, height*0.5f, 50);
   }
 
-  Blob(char move, char left, char right, char shoot, float startx, float starty, color c)
+  Blob(char move, char left, char right, float startx, float starty, color c)
   {
     super(startx, starty, 50);
+    velocity=new PVector(0, 0);
+    this.gravity=0.5f;
+    this.jump=150.0f;
+    this.speed=10;
+    this.ground=height-50;
     this.move=move;
     this.left=left;
     this.right=right;
@@ -29,17 +39,26 @@ class Blob extends GameObject
   {
     forward.x=sin(theta);
     forward.y=-cos(theta);
-    if (keys[move])
+    if(pos.y<ground)
     {
-      pos.add(PVector.mult(forward, speed));
+      speed+=gravity;
     }
+    else
+    {
+      speed=0;
+    }
+    if(pos.y>=ground && jumpKey==true)
+    {
+      velocity.y = -speed;
+    }
+    speed=5;
     if (keys[left])
     {
-      theta-=0.1f;
+      pos.sub(PVector.mult(side, speed));
     }
     if (keys[right])
     {
-      theta += 0.1f;
+      pos.add(PVector.mult(side, speed));
     }
     /*if(keys[shoot] && elapsed>12)
      {*/
@@ -67,8 +86,8 @@ class Blob extends GameObject
   {
     pushMatrix();
     translate(pos.x, pos.y);
-    stroke(0);
-    fill(c);
+    stroke(255);
+    fill(255);
     text("Lives: "+lives, w, 20);
     rotate(theta);
     noFill();

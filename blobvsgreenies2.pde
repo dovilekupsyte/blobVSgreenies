@@ -1,27 +1,19 @@
 void setup()
 {
   size(500, 300);
-  background(255);
-  Blob blob = new Blob('w', 'a', 'd', ' ', 200, height/2, color(255, 0, 0));
+  background(0);
+  Blob blob = new Blob('W', 'A', 'D', 200, height-50, color(255, 0, 0));
   gameObjects.add(blob);
 }
 
 ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
 
 boolean[] keys = new boolean[512];
-
-void keyPressed()
-{
-  keys[keyCode]=true;
-}
-void keyReleased()
-{
-  keys[keyCode]=false;
-}
+boolean jumpKey = false;
 
 void draw()
 {
-  background(255);
+  background(0);
   
   for(int i=gameObjects.size()-1; i>=0; i--)
   {
@@ -29,4 +21,21 @@ void draw()
     go.update();
     go.render();
   }
+}
+
+void keyPressed()
+{
+  keys[keyCode]=true;
+  if(key=='w' || key=='W')
+  {
+    jumpKey=true;
+  }
+  else
+  {
+    jumpKey=false;
+  }
+}
+void keyReleased()
+{
+  keys[keyCode]=false;
 }
