@@ -26,16 +26,16 @@ void draw()
 void keyPressed()
 {
   keys[keyCode]=true;
-  if(key=='w' || key=='W')
+  if(key=='W' || key=='w')
   {
     jumpKey=true;
-  }
-  else
-  {
-    jumpKey=false;
   }
 }
 void keyReleased()
 {
   keys[keyCode]=false;
+  if(key=='W' || key=='w')
+  {
+    jumpKey=false;
+  }
 }

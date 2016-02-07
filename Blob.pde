@@ -5,7 +5,6 @@ class Blob extends GameObject
   float jump;
   float speed;
   float ground;
-  char move;
   char left;
   char right;
   char shoot;
@@ -22,10 +21,9 @@ class Blob extends GameObject
     super(startx, starty, 50);
     velocity=new PVector(0, 0);
     this.gravity=0.5f;
-    this.jump=150.0f;
+    this.jump=10;
     this.speed=10;
     this.ground=height-50;
-    this.move=move;
     this.left=left;
     this.right=right;
     this.shoot=shoot;
@@ -37,19 +35,26 @@ class Blob extends GameObject
 
   void update()
   {
-    forward.x=sin(theta);
-    forward.y=-cos(theta);
     if(pos.y<ground)
     {
-      speed+=gravity;
+      velocity.y+=gravity;
     }
-    else
-    {
-      speed=0;
+    else{velocity.y=0;
     }
     if(pos.y>=ground && jumpKey==true)
     {
-      velocity.y = -speed;
+      velocity.y = -jump;
+    }
+    PVector nextPos = new PVector(pos.x, pos.y);
+    nextPos.add(velocity);
+    float offset=0;
+    if(nextPos.x>offset && nextPos.x<(width-offset));
+    {
+      pos.x=nextPos.x;
+    }
+    if(nextPos.y>offset && nextPos.y<(height-offset));
+    {
+      pos.y=nextPos.y;
     }
     speed=5;
     if (keys[left])
@@ -60,25 +65,7 @@ class Blob extends GameObject
     {
       pos.add(PVector.mult(side, speed));
     }
-    /*if(keys[shoot] && elapsed>12)
-     {*/
-
-    if (pos.x<0)
-    {
-      pos.x=0;
-    }
-    if (pos.x>width)
-    {
-      pos.x=width;
-    }
-    if (pos.y<0)
-    {
-      pos.y=0;
-    }
-    if (pos.y>height)
-    {
-      pos.y=height;
-    }
+    
     elapsed++;
   }
 
