@@ -5,6 +5,7 @@ class Blob extends GameObject
   float jump;
   float speed;
   float ground;
+  float dir;
   char left;
   char right;
   char shoot;
@@ -18,12 +19,13 @@ class Blob extends GameObject
 
   Blob(char move, char left, char right, float startx, float starty, color c)
   {
-    super(startx, starty, 50);
+    super(startx, starty, 75);
     velocity=new PVector(0, 0);
     this.gravity=0.5f;
     this.jump=10;
     this.speed=10;
-    this.ground=height-50;
+    this.ground=height-75;
+    this.dir=0;
     this.left=left;
     this.right=right;
     this.shoot=shoot;
@@ -60,10 +62,22 @@ class Blob extends GameObject
     if (keys[left])
     {
       pos.sub(PVector.mult(side, speed));
+      dir=-1;
     }
     if (keys[right])
     {
       pos.add(PVector.mult(side, speed));
+      dir=1;
+    }
+    
+    if(pos.x<0)
+    {
+      pos.x = 0;
+    }
+    
+    if (pos.x > width-75)
+    {
+      pos.x = width-75;
     }
     
     elapsed++;
@@ -73,12 +87,21 @@ class Blob extends GameObject
   {
     pushMatrix();
     translate(pos.x, pos.y);
-    stroke(255);
-    fill(255);
-    text("Lives: "+lives, w, 20);
-    rotate(theta);
-    noFill();
+    stroke(0);
+    fill(255, 0, 0);
     ellipse(halfw, halfw, halfw, halfw);
+    //eyes
+    //dir used for flipping the drawing
+    fill(255);
+    ellipse(halfw-(5*dir), halfw-5, 6, 6);
+    ellipse(halfw+(5*dir), halfw-5, 6, 6);
+    fill(0);
+    ellipse(halfw-(4*dir), halfw-5, 3, 3);
+    ellipse(halfw+(6*dir), halfw-5, 3, 3);
+    //gun
+    fill(0);
+    rect(halfw+(5*dir), halfw, 20*dir, 3);
     popMatrix();
+    text("Lives: "+lives, 20, 20);
   }
 }

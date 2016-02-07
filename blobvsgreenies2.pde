@@ -1,8 +1,8 @@
 void setup()
 {
   size(500, 300);
-  background(0);
-  Blob blob = new Blob('W', 'A', 'D', 200, height-50, color(255, 0, 0));
+  background(255);
+  Blob blob = new Blob('W', 'A', 'D', 200, height-75, color(255, 0, 0));
   gameObjects.add(blob);
 }
 
@@ -13,7 +13,7 @@ boolean jumpKey = false;
 
 void draw()
 {
-  background(0);
+  background(255);
   
   for(int i=gameObjects.size()-1; i>=0; i--)
   {
