@@ -17,7 +17,7 @@ class Blob extends GameObject
     super(width*0.5f, height*0.5f, 50);
   }
 
-  Blob(char move, char left, char right, float startx, float starty, color c)
+  Blob(char left, char right, char shoot, float startx, float starty, color c)
   {
     super(startx, starty, 75);
     velocity=new PVector(0, 0);
@@ -68,6 +68,19 @@ class Blob extends GameObject
     {
       pos.add(PVector.mult(side, speed));
       dir=1;
+    }
+    
+    if (keys[shoot]  && elapsed > 12)
+    {
+      // Create a new bullet instance and add it to the arraylist of bullets
+      Bullet bullet = new Bullet();
+      bullet.pos.x = pos.x;
+      bullet.pos.y = pos.y+halfw/2-5;
+      bullet.pos.add(PVector.mult(side, 2));
+      bullet.c = c;
+      println(side);
+      gameObjects.add(bullet);
+      elapsed = 0;
     }
     
     if(pos.x<0)
