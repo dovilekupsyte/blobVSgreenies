@@ -39,11 +39,11 @@ class Blob extends GameObject
 
   void update()
   {
-    /*if(hit==true)
+    if(hit==true)
     {
       score++;
       hit=false;
-    }*/
+    }
     if(keys[up])
     {
       jumpKey=true;
@@ -97,14 +97,14 @@ class Blob extends GameObject
       elapsed = 0;
     }
     
-    if(pos.x<0)
+    if(pos.x<25+halfw)
     {
-      pos.x = 0;
+      pos.x = 25+halfw;
     }
     
-    if (pos.x > width-75)
+    if (pos.x > width-50)
     {
-      pos.x = width-75;
+      pos.x = width-50;
     }
     
     elapsed++;
