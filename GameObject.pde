@@ -14,7 +14,7 @@ abstract class GameObject
   
   GameObject(float x, float y, float w)
   {
-    pos= new PVector(x, y);
+    pos= new PVector(0, 0);
     side= new PVector(+1, 0);
     this.w=w;
     this.halfw=w*0.5f;
@@ -24,5 +24,13 @@ abstract class GameObject
   abstract void update();
   abstract void render();
   
-  
+  boolean collides(GameObject entity)
+  {
+    float check=halfw+entity.halfw;
+    return PVector.dist(pos, entity.pos)<check;
+  }
+  boolean collides(PVector point)
+  {
+    return PVector.dist(point, pos)<halfw;
+  }
 }

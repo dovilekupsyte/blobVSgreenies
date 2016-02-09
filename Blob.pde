@@ -17,8 +17,8 @@ class Blob extends GameObject
 
   Blob()
   {
-    pos.x=width/2;
-    pos.y=height-(height*0.3f);
+    pos.x=halfw;
+    pos.y=0;
     velocity=new PVector(0, 0);
     this.gravity=0.5f;
     this.jump=10;
@@ -86,7 +86,6 @@ class Blob extends GameObject
       bullet.pos.y = pos.y+halfw/2-5;
       bullet.pos.add(PVector.mult(side, 2));
       bullet.c = c;
-      println(side);
       gameObjects.add(bullet);
       elapsed = 0;
     }
@@ -110,19 +109,21 @@ class Blob extends GameObject
     translate(pos.x, pos.y);
     stroke(0);
     fill(255, 0, 0);
-    ellipse(halfw, halfw, halfw, halfw);
+    ellipseMode(CENTER);
+    ellipse(0, 0, halfw, halfw);
     //eyes
     //dir used for flipping the drawing
     fill(255);
-    ellipse(halfw-(5*dir), halfw-5, 6, 6);
-    ellipse(halfw+(5*dir), halfw-5, 6, 6);
+    ellipse(0-(5*dir), 0-5, 6, 6);
+    ellipse(0+(5*dir), 0-5, 6, 6);
     fill(0);
-    ellipse(halfw-(4*dir), halfw-5, 3, 3);
-    ellipse(halfw+(6*dir), halfw-5, 3, 3);
+    ellipse(0-(4*dir), 0-5, 3, 3);
+    ellipse(0+(6*dir), 0-5, 3, 3);
     //gun
     fill(0);
-    rect(halfw+(5*dir), halfw, 20*dir, 3);
+    rect(0+(10*dir), 5, 20*dir, 3);
     popMatrix();
     text("Lives: "+lives, 20, 20);
+    //println("bl\t"+pos);
   }
 }

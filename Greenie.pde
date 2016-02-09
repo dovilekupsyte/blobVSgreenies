@@ -9,10 +9,8 @@ class Greenie extends GameObject
   float h;
   color c;
   
-  Greenie(float startx, float starty, float speed, float health)
+  Greenie(float speed, float health)
   {
-    this.startx=startx;
-    this.starty=starty;
     this.speed=speed;
     this.health=health;
     this.dir=0;
@@ -39,7 +37,8 @@ class Greenie extends GameObject
     translate(pos.x, pos.y);
     noStroke();
     fill(c);
-    rect(halfw+startx, halfw+starty, w, h);
+    rectMode(CENTER);
+    rect(0, 0, w, h);
     popMatrix();
   }
 }
