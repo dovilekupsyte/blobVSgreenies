@@ -12,6 +12,7 @@ class Blob extends GameObject
   char shoot;
 
   int lives;
+  int score;
 
   boolean jumpKey = false;
 
@@ -31,12 +32,18 @@ class Blob extends GameObject
     this.shoot=' ';
     this.c=color(255, 0, 0);
     lives=5;
+    score=0;
   }
 
   int elapsed = 12;
 
   void update()
   {
+    /*if(hit==true)
+    {
+      score++;
+      hit=false;
+    }*/
     if(keys[up])
     {
       jumpKey=true;
@@ -83,7 +90,7 @@ class Blob extends GameObject
       // Create a new bullet instance and add it to the arraylist of bullets
       Bullet bullet = new Bullet();
       bullet.pos.x = pos.x;
-      bullet.pos.y = pos.y+halfw/2-5;
+      bullet.pos.y = pos.y;
       bullet.pos.add(PVector.mult(side, 2));
       bullet.c = c;
       gameObjects.add(bullet);
@@ -123,7 +130,9 @@ class Blob extends GameObject
     fill(0);
     rect(0+(10*dir), 5, 20*dir, 3);
     popMatrix();
-    text("Lives: "+lives, 20, 20);
+    textSize(14);
+    text("Lives:\t"+lives, width*0.25f, 50);
+    text("Score:\t"+score, width*0.75f, 50);
     //println("bl\t"+pos);
   }
 }

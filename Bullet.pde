@@ -3,7 +3,7 @@ class Bullet extends GameObject
   float speed;
   Bullet()
   {
-    this.speed = 2.0f;
+    this.speed = 1.1f;
     w = 10;
   }
   
@@ -11,7 +11,8 @@ class Bullet extends GameObject
   {
     pushMatrix();
     translate(pos.x, pos.y);
-    rect(halfw, halfw, 10, 2);
+    rectMode(CENTER);
+    rect(0, 0, 10, 2);
     popMatrix();    
   }
   

@@ -2,13 +2,14 @@ final int menu=0;
 final int play=1;
 final int gameOver=2;
 int state=menu;
-
 float gx, gy;
+
 ArrayList<Greenie> greens = new ArrayList<Greenie>();
 ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
 
 boolean[] keys = new boolean[512];
 
+boolean hit=false;
 boolean flip = false;
 
 
@@ -69,11 +70,11 @@ void reset()
 void play()
 {
   background(255);
-  if(frameCount % 60 == 0)
+  if(frameCount % 120 == 0)
   {
-    Greenie g2 = new Greenie (2, 1);
+    Greenie g2 = new Greenie (1, 1);
     g2.pos.x=0;
-    g2.pos.y=225;
+    g2.pos.y=235;
     greens.add(g2);
     gameObjects.add(g2);
     println(g2.pos.y);
@@ -93,22 +94,36 @@ void collide()
   for(int i=gameObjects.size()-1; i>=0; i--)
   {
     GameObject go=gameObjects.get(i);
-    if(go instanceof Blob)
+    if(go instanceof Greenie)
     {
       //println("bl\t"+go.pos.x);
       for(int j=gameObjects.size()-1; j>=0; j--)
       {
         GameObject other= gameObjects.get(j);
-        if(other instanceof Greenie)
+        if(other instanceof Blob)
         {
           if(go.pos.dist(other.pos)<40)
           {
-            ((Blob) go).lives--;
-            gameObjects.remove(other);
-            if(((Blob) go).lives==0)
+            ((Blob) other).lives--;
+            gameObjects.remove(go);
+            if(((Blob) other).lives==0)
             {
               state=2;
             }
+          }
+        }
+        if(other instanceof Bullet)
+        {
+          if(go.pos.dist(other.pos)<10)
+          {
+            hit=true;
+            gameObjects.remove(go);
+            gameObjects.remove(other);
+            break;
+          }
+          else
+          {
+            hit=false;
           }
         }
       }
