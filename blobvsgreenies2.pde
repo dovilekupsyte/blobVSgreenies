@@ -20,8 +20,6 @@ void setup()
   
   Blob blob = new Blob();
   gameObjects.add(blob);
-  Greenie g1 = new Greenie(0, -100, 5, 1);
-  gameObjects.add(g1);
 }
 
 void showMenu()
@@ -50,16 +48,38 @@ void gameOver()
   }
 }
 
+void reset()
+{
+  for (int i = 0 ; i < gameObjects.size() ; i ++)
+  {
+      GameObject child = gameObjects.get(i);
+      if (child instanceof Blob)
+      {
+        Blob  blob = (Blob) gameObjects.get(i);
+        blob.lives = 5;     
+      }
+      if (child instanceof Greenie)
+      {
+        gameObjects.remove(child);
+      }
+  }
+}
+
 void play()
 {
   background(255);
+  if(frameCount % 60 == 0)
+  {
+    Greenie g2 = new Greenie (-250, 60, 2, 1);
+    gameObjects.add(g2);
+  }
+  
   for(int i = gameObjects.size()-1; i>=0; i--)
   {
     GameObject go = gameObjects.get(i);
     go.update();
     go.render();
   }
-  
   //check for collisions
   for(int i = gameObjects.size()-1; i>=0; i--)
   {
@@ -69,19 +89,19 @@ void play()
       for(int j = gameObjects.size() - 1 ; j >= 0   ;j --)
       {
         GameObject ob = gameObjects.get(j);
-        if(ob instanceof Blob)
+        /*if(ob instanceof Blob)
         {
-          if(og.pos.dist(ob.pos)<og.halfw+ob.halfw)
+          if(og.pos.dist(ob.pos)<50)
           {
             ((Blob) ob).lives--;
             if(((Blob) ob).lives==0)
             {
-              gameObjects.remove(ob);
+              reset();
               state=2;
               break;
             }
           }
-        }
+        }*/
         if(ob instanceof Bullet)
         {
           if(og.pos.dist(ob.pos)<og.halfw)

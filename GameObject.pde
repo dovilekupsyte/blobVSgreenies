@@ -23,4 +23,6 @@ abstract class GameObject
   
   abstract void update();
   abstract void render();
+  
+  
 }
