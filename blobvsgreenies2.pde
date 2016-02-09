@@ -1,100 +1,142 @@
-Button[] menuButtons;
 final int menu=0;
-final int level1=1;
-final int level2=2;
+final int play=1;
+final int gameOver=2;
 int state=menu;
 
-boolean drawBox;
+
+ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
+
+boolean[] keys = new boolean[512];
+
+boolean flip = false;
+
+
+
 void setup()
 {
   size(500, 300);
   background(255);
   fill(255);
-  menuButtons = new Button[1];
-  menuButtons[0]=new Button("Play", width/2, 200);
-  drawBox=false;
-  showMenu();
   
-  
+  Blob blob = new Blob();
+  gameObjects.add(blob);
+  Greenie g1 = new Greenie(0, -100, 5, 1);
+  gameObjects.add(g1);
 }
 
-ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
+void showMenu()
+{
+  background(0);
+  fill(255);
+  printText("Blob VS Greenies", 48, 100);
+  printText("WAD to move, SPACE to shoot", 32, 200);
+  printText("Press SPACE to play!", 40, 250);
+  if(keys[' '])
+  {
+    state=1;
+  }
+}
 
-boolean[] keys = new boolean[512];
-boolean jumpKey = false;
-boolean flip = false;
+void gameOver()
+{
+  background(0);
+  fill(255);
+  printText("Blob VS Greenies", 48, 100);
+  printText("GAME OVER", 48, 200);
+  printText("Press SPACE to play", 32, 250);
+  if(keys[' '])
+  {
+    state=0;
+  }
+}
 
-
+void play()
+{
+  background(255);
+  for(int i = gameObjects.size()-1; i>=0; i--)
+  {
+    GameObject go = gameObjects.get(i);
+    go.update();
+    go.render();
+  }
+  
+  //check for collisions
+  for(int i = gameObjects.size()-1; i>=0; i--)
+  {
+    GameObject og = gameObjects.get(i);
+    if(og instanceof Greenie)
+    {
+      for(int j = gameObjects.size() - 1 ; j >= 0   ;j --)
+      {
+        GameObject ob = gameObjects.get(j);
+        if(ob instanceof Blob)
+        {
+          if(og.pos.dist(ob.pos)<og.halfw+ob.halfw)
+          {
+            ((Blob) ob).lives--;
+            if(((Blob) ob).lives==0)
+            {
+              gameObjects.remove(ob);
+              state=2;
+              break;
+            }
+          }
+        }
+        if(ob instanceof Bullet)
+        {
+          if(og.pos.dist(ob.pos)<og.halfw)
+          {
+            gameObjects.remove(og);
+            gameObjects.remove(ob);
+          }
+        }
+      }
+    }
+  }
+}
+void printText(String text, int size, int y)
+{
+  textSize(size);
+  int tw=(int) textWidth(text);
+  int x=(width/2)-(tw/2);
+  text(text, x, y);
+}
 
 void draw()
 {
   switch(state)
   {
-    case menu:
+    case 0:
       showMenu();
       break;
       
-    case level1:
-      background(255);
-      Blob blob = new Blob('A', 'D', ' ', 200, height-75, color(255, 0, 0));
-      gameObjects.add(blob);
-      Greenie g1 = new Greenie(0, -100, 5, 1);
-      gameObjects.add(g1);
-      for(int i=gameObjects.size()-1; i>=0; i--)
-      {
-        GameObject go=gameObjects.get(i);
-        go.update();
-        go.render();
-      }
+    case 1:
+      play();
       break;
     
-    default:
-      exit();
+    case 2:
+      gameOver();
       break;
   }
-  
 }
-void showMenu()
-{
-  background(0);
-  textAlign(CENTER);
-  fill(255);
-  textSize(28);
-  text("Bolb VS Greenies", width/2, 100);
-  menuButtons[0].draw(drawBox);
-  
-}
-void mousePressed()
-{
-  if(state==menu)
-  {
-    if(menuButtons[0].containsMouse())
-    {
-      state=level1;
-    }
-  }
-}
+
 void keyPressed()
 {
   keys[keyCode]=true;
-  if(key=='A' || key=='a')
+  
+  if(state==play)
   {
-    flip=true;
-  }
-  if(key=='D' || key=='d')
-  {
-    flip=false;
-  }
-  if(key=='W' || key=='w')
-  {
-    jumpKey=true;
+    if(keys['a'])
+    {
+      flip=true;
+    }
+    else
+    {
+      flip=false;
+    }
   }
 }
 void keyReleased()
 {
   keys[keyCode]=false;
-  if(key=='W' || key=='w')
-  {
-    jumpKey=false;
-  }
 }

@@ -6,30 +6,30 @@ class Blob extends GameObject
   float speed;
   float ground;
   float dir;
+  char up;
   char left;
   char right;
   char shoot;
 
   int lives;
 
+  boolean jumpKey = false;
+
   Blob()
   {
-    super(width*0.5f, height*0.5f, 50);
-  }
-
-  Blob(char left, char right, char shoot, float startx, float starty, color c)
-  {
-    super(startx, starty, 75);
+    pos.x=width/2;
+    pos.y=height-(height*0.3f);
     velocity=new PVector(0, 0);
     this.gravity=0.5f;
     this.jump=10;
     this.speed=10;
     this.ground=height-75;
     this.dir=0;
-    this.left=left;
-    this.right=right;
-    this.shoot=shoot;
-    this.c=c;
+    this.left='A';
+    this.right='D';
+    this.up='W';
+    this.shoot=' ';
+    this.c=color(255, 0, 0);
     lives=5;
   }
 
@@ -37,6 +37,14 @@ class Blob extends GameObject
 
   void update()
   {
+    if(keys[up])
+    {
+      jumpKey=true;
+    }
+    else
+    {
+      jumpKey=false;
+    }
     if(pos.y<ground)
     {
       velocity.y+=gravity;
