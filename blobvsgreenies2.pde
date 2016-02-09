@@ -28,7 +28,7 @@ void showMenu()
   printText("Blob VS Greenies", 32, 100);
   printText("WAD to move, SPACE to shoot", 12, 200);
   printText("Press SPACE to play!", 14, 250);
-  if(keys[' '])
+  if (keys[' '])
   {
     state=1;
   }
@@ -41,7 +41,7 @@ void gameOver()
   printText("Blob VS Greenies", 32, 100);
   printText("GAME OVER", 16, 200);
   printText("Press SPACE to play", 14, 250);
-  if(keys[' '])
+  if (keys[' '])
   {
     state=0;
   }
@@ -49,18 +49,18 @@ void gameOver()
 
 void reset()
 {
-  for (int i = 0 ; i < gameObjects.size() ; i ++)
+  for (int i = 0; i < gameObjects.size(); i ++)
   {
-      GameObject child = gameObjects.get(i);
-      if (child instanceof Blob)
-      {
-        Blob  blob = (Blob) gameObjects.get(i);
-        blob.lives = 5;     
-      }
-      if (child instanceof Greenie)
-      {
-        gameObjects.remove(child);
-      }
+    GameObject child = gameObjects.get(i);
+    if (child instanceof Blob)
+    {
+      Blob  blob = (Blob) gameObjects.get(i);
+      blob.lives = 5;
+    }
+    if (child instanceof Greenie)
+    {
+      gameObjects.remove(child);
+    }
   }
 }
 
@@ -68,7 +68,7 @@ void play()
 {
   background(255);
   drawBorder();
-  if(frameCount % 120 == 0)
+  if (frameCount % 120 == 0)
   {
     Greenie g2 = new Greenie (1, 1);
     g2.pos.x=0;
@@ -77,8 +77,8 @@ void play()
     gameObjects.add(g2);
     println(g2.pos.y);
   }
-  
-  for(int i = gameObjects.size()-1; i>=0; i--)
+
+  for (int i = gameObjects.size()-1; i>=0; i--)
   {
     GameObject go = gameObjects.get(i);
     go.update();
@@ -89,37 +89,36 @@ void play()
 
 void collide()
 {
-  for(int i=gameObjects.size()-1; i>=0; i--)
+  for (int i=gameObjects.size()-1; i>=0; i--)
   {
     GameObject go=gameObjects.get(i);
-    if(go instanceof Greenie)
+    if (go instanceof Greenie)
     {
       //println("bl\t"+go.pos.x);
-      for(int j=gameObjects.size()-1; j>=0; j--)
+      for (int j=gameObjects.size()-1; j>=0; j--)
       {
         GameObject other= gameObjects.get(j);
-        if(other instanceof Blob)
+        if (other instanceof Blob)
         {
-          if(go.pos.dist(other.pos)<40)
+          if (go.pos.dist(other.pos)<40)
           {
             ((Blob) other).lives--;
             gameObjects.remove(go);
-            if(((Blob) other).lives==0)
+            if (((Blob) other).lives==0)
             {
               state=2;
             }
           }
         }
-        if(other instanceof Bullet)
+        if (other instanceof Bullet)
         {
-          if(go.pos.dist(other.pos)<10)
+          if (go.pos.dist(other.pos)<10)
           {
             hit=true;
             gameObjects.remove(go);
             gameObjects.remove(other);
             break;
-          }
-          else
+          } else
           {
             hit=false;
           }
@@ -146,21 +145,53 @@ void drawBorder()
   rect(0, 250, width, 50);
   rect(width-25, 0, 25, 200);
   //bricks
-  for(int i=0; i<16; i++)
+  float brick;
+  float halfb;
+  brick=25;
+  halfb=brick/2;
+  for (int i=0; i<16; i++)
   {
-    line(0, i*12.5, 25, i*12.5);
-    line(width-25, i*12.5, width, i*12.5);
-    line(0, (height-50)+(12.5*i), width, (height-50)+(12.5*i));
+    line(0, i*halfb, brick, i*halfb);
+    line(width-brick, i*halfb, width, i*halfb);
+    line(0, (height-50)+(halfb*i), width, (height-50)+(halfb*i));
   }
   float y1, y2;
   y1=0;
-  y2=12.5;
-  for(int i=0; i<8; i++)
+  y2=halfb;
+  for (int i=0; i<8; i++)
   {
-    line(12.5, y1, 12.5, y2);
-    line(width-12.5, y1, width-12.5, y2);
-    y1=y1+25;
-    y2=y2+25;
+    line(halfb, y1, halfb, y2);
+    line(width-halfb, y1, width-halfb, y2);
+    y1=y1+brick;
+    y2=y2+brick;
+  }
+  //floor bricks
+  float x1, x2, ya, yb;
+  x1=halfb;
+  x2=brick;
+  ya=250;
+  yb=ya+halfb;
+  for (int i=0; i<2; i++)
+  {
+    for (int j=0; j<20; j++)
+    {
+      line(x1, ya, x1, yb);
+      x1=x1+brick;
+    }
+    ya=yb;
+    yb=yb+halfb;
+    for (int j=0; j<20; j++)
+    {
+      line(x2, ya, x2, yb);
+      x2=x2+brick;
+      /*ya=yb;
+       yb=yb+halfb;
+       x2=x2+brick;*/
+    }
+    x1=halfb;
+    x2=brick;
+    ya=yb;
+    yb=yb+halfb;
   }
   strokeWeight(1);
 }
@@ -169,31 +200,30 @@ void draw()
 {
   switch(state)
   {
-    case 0:
-      showMenu();
-      break;
-      
-    case 1:
-      play();
-      break;
-    
-    case 2:
-      gameOver();
-      break;
+  case 0:
+    showMenu();
+    break;
+
+  case 1:
+    play();
+    break;
+
+  case 2:
+    gameOver();
+    break;
   }
 }
 
 void keyPressed()
 {
   keys[keyCode]=true;
-  
-  if(state==play)
+
+  if (state==play)
   {
-    if(keys['a'])
+    if (keys['a'])
     {
       flip=true;
-    }
-    else
+    } else
     {
       flip=false;
     }
