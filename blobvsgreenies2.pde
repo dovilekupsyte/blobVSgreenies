@@ -7,7 +7,6 @@ int score;
 int goal;
 float frequency;
 PFont font;
-ArrayList<Greenie> greens = new ArrayList<Greenie>();
 ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
 
 boolean[] keys = new boolean[512];
@@ -95,7 +94,6 @@ void play()
     g2.dir=0;
     g2.pos.x=0;
     g2.pos.y=235;
-    greens.add(g2);
     gameObjects.add(g2);
   }
   if (score>10)
@@ -106,7 +104,6 @@ void play()
       g2.dir=1;
       g2.pos.x=width;
       g2.pos.y=235;
-      greens.add(g2);
       gameObjects.add(g2);
     }
   }
