@@ -2,6 +2,9 @@ class Blob extends GameObject
 {
   PVector velocity;
   float gravity;
+  float platform;
+  float px;
+  float pwidth;
   float jump;
   float speed;
   float ground;
@@ -25,6 +28,9 @@ class Blob extends GameObject
     this.jump=10;
     this.speed=10;
     this.ground=height-75;
+    platform=height/1.75;
+    px=125;
+    pwidth=px+250;
     this.dir=0;
     this.left='A';
     this.right='D';
@@ -109,7 +115,7 @@ class Blob extends GameObject
     
     elapsed++;
   }
-
+  
   void render()
   {
     pushMatrix();

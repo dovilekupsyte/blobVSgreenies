@@ -68,6 +68,7 @@ void play()
 {
   background(255);
   drawBorder();
+  drawPlatform();
   if (frameCount % 120 == 0)
   {
     Greenie g2 = new Greenie (1, 1);
@@ -75,7 +76,6 @@ void play()
     g2.pos.y=235;
     greens.add(g2);
     gameObjects.add(g2);
-    println(g2.pos.y);
   }
 
   for (int i = gameObjects.size()-1; i>=0; i--)
@@ -196,6 +196,18 @@ void drawBorder()
   strokeWeight(1);
 }
 
+void drawPlatform()
+{
+  rectMode(CORNER);
+  float px1, px2, py1, py2;
+  px1=width/5;
+  px2=px1*3;
+  py1=175;
+  py2=25;
+  fill(212, 138, 36);
+  rect(px1, py1, px2, py2);
+  println(px1+"\t"+py1);
+}
 void draw()
 {
   switch(state)
