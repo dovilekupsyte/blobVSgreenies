@@ -3,7 +3,9 @@ final int play=1;
 final int gameOver=2;
 int state=menu;
 float gx, gy;
-
+int score;
+int goal;
+float frequency;
 ArrayList<Greenie> greens = new ArrayList<Greenie>();
 ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
 
@@ -19,6 +21,8 @@ void setup()
   fill(255);
   Blob blob = new Blob();
   gameObjects.add(blob);
+  goal=5;
+  frequency=180;
 }
 
 void showMenu()
@@ -39,6 +43,10 @@ void gameOver()
   background(0);
   fill(255);
   printText("Blob VS Greenies", 32, 100);
+  textSize(20);
+  textAlign(CENTER);
+  text("Score: "+score, width/2, 150);
+  textAlign(LEFT);
   printText("GAME OVER", 16, 200);
   printText("Press SPACE to play", 14, 250);
   if (keys[' '])
@@ -66,16 +74,31 @@ void reset()
 
 void play()
 {
-  background(255);
+  background(154, 222, 245);
   drawBorder();
   drawPlatform();
-  if (frameCount % 120 == 0)
+  checkScore();
+
+  if (frameCount % frequency == 0)
   {
     Greenie g2 = new Greenie (1, 1);
+    g2.dir=0;
     g2.pos.x=0;
     g2.pos.y=235;
     greens.add(g2);
     gameObjects.add(g2);
+  }
+  if (score>10)
+  {
+    if (frameCount % (frequency+30) == 0)
+    {
+      Greenie g2 = new Greenie (1, 1);
+      g2.dir=1;
+      g2.pos.x=width;
+      g2.pos.y=235;
+      greens.add(g2);
+      gameObjects.add(g2);
+    }
   }
 
   for (int i = gameObjects.size()-1; i>=0; i--)
@@ -114,7 +137,7 @@ void collide()
         {
           if (go.pos.dist(other.pos)<10)
           {
-            hit=true;
+            score++;
             gameObjects.remove(go);
             gameObjects.remove(other);
             break;
@@ -128,6 +151,15 @@ void collide()
   }
 }
 
+void checkScore()
+{
+  if (score==goal)
+  {
+    frequency=frequency-30;
+    goal=score*2;
+  }
+}
+
 void printText(String text, int size, int y)
 {
   textSize(size);
@@ -138,6 +170,8 @@ void printText(String text, int size, int y)
 
 void drawBorder()
 {
+  println(frequency);
+  text("Score: "+score, 400, 50);
   rectMode(CORNER);
   fill(212, 138, 36);
   strokeWeight(1.5);
@@ -208,14 +242,14 @@ void drawPlatform()
   fill(212, 138, 36);
   rect(px1, py1, px2, py2);
   line(px1, py1+12.5, px1+px2, py1+12.5);
-  
+
   //bricks
   float brick=25;
   float halfb=brick/2;
   float bx, by;
   bx=px1+halfb;
   by=px1+brick;
-  for(int i=0; i<12; i++)
+  for (int i=0; i<12; i++)
   {
     line(bx, py1, bx, py1+halfb);
     bx=bx+brick;
@@ -246,17 +280,6 @@ void draw()
 void keyPressed()
 {
   keys[keyCode]=true;
-
-  if (state==play)
-  {
-    if (keys['a'])
-    {
-      flip=true;
-    } else
-    {
-      flip=false;
-    }
-  }
 }
 void keyReleased()
 {

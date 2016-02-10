@@ -15,7 +15,6 @@ class Blob extends GameObject
   char shoot;
 
   int lives;
-  int score;
 
   boolean jumpKey = false;
 
@@ -28,9 +27,6 @@ class Blob extends GameObject
     this.jump=10;
     this.speed=10;
     this.ground=height-75;
-    platform=height/1.75;
-    px=125;
-    pwidth=px+250;
     this.dir=0;
     this.left='A';
     this.right='D';
@@ -38,44 +34,37 @@ class Blob extends GameObject
     this.shoot=' ';
     this.c=color(255, 0, 0);
     lives=5;
-    score=0;
   }
 
   int elapsed = 12;
 
   void update()
   {
-    if(hit==true)
-    {
-      score++;
-      hit=false;
-    }
-    if(keys[up])
+    if (keys[up])
     {
       jumpKey=true;
-    }
-    else
+    } else
     {
       jumpKey=false;
     }
-    if(pos.y<ground)
+    if (pos.y<ground)
     {
       velocity.y+=gravity;
+    } else {
+      velocity.y=0;
     }
-    else{velocity.y=0;
-    }
-    if(pos.y>=ground && jumpKey==true)
+    if (pos.y>=ground && jumpKey==true)
     {
       velocity.y = -jump;
     }
     PVector nextPos = new PVector(pos.x, pos.y);
     nextPos.add(velocity);
     float offset=0;
-    if(nextPos.x>offset && nextPos.x<(width-offset));
+    if (nextPos.x>offset && nextPos.x<(width-offset));
     {
       pos.x=nextPos.x;
     }
-    if(nextPos.y>offset && nextPos.y<(height-offset));
+    if (nextPos.y>offset)// && nextPos.y<(height-offset));
     {
       pos.y=nextPos.y;
     }
@@ -84,13 +73,15 @@ class Blob extends GameObject
     {
       pos.sub(PVector.mult(side, speed));
       dir=-1;
+      flip=true;
     }
     if (keys[right])
     {
       pos.add(PVector.mult(side, speed));
       dir=1;
+      flip=false;
     }
-    
+
     if (keys[shoot]  && elapsed > 12)
     {
       // Create a new bullet instance and add it to the arraylist of bullets
@@ -102,20 +93,20 @@ class Blob extends GameObject
       gameObjects.add(bullet);
       elapsed = 0;
     }
-    
-    if(pos.x<25+halfw)
+
+    if (pos.x<25+halfw)
     {
       pos.x = 25+halfw;
     }
-    
+
     if (pos.x > width-50)
     {
       pos.x = width-50;
     }
-    
+
     elapsed++;
   }
-  
+
   void render()
   {
     pushMatrix();
@@ -138,7 +129,5 @@ class Blob extends GameObject
     popMatrix();
     textSize(14);
     text("Lives:\t"+lives, width*0.25f, 50);
-    text("Score:\t"+score, width*0.75f, 50);
-    //println("bl\t"+pos);
   }
 }

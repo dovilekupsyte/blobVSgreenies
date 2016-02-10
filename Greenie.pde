@@ -39,6 +39,12 @@ class Greenie extends GameObject
     fill(c);
     rectMode(CENTER);
     rect(0, 0, w, h);
+    //eyes
+    //dir used for flipping the drawing
+    fill(255);
+    ellipse(0-(5*dir), 0-5, 12, 12);
+    fill(0);
+    ellipse(0-(4*dir), 0-5, 8, 8);
     popMatrix();
   }
 }

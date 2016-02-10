@@ -21,7 +21,7 @@ class Bullet extends GameObject
     if(flip==false)
     {
       side.mult(speed);
-      pos.sub(side);
+      pos.add(side);
     }
     if(flip==true)
     {
