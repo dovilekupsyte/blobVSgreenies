@@ -45,13 +45,16 @@ void gameOver()
   printText("Blob VS Greenies", 32, 100);
   textSize(20);
   textAlign(CENTER);
+  fill(255, 0, 0);
   text("Score: "+score, width/2, 150);
   textAlign(LEFT);
+  fill(255);
   printText("GAME OVER", 16, 200);
   printText("Press SPACE to play", 14, 250);
   if (keys[' '])
   {
-    state=0;
+    reset();
+    state=1;
   }
 }
 
@@ -70,6 +73,7 @@ void reset()
       gameObjects.remove(child);
     }
   }
+  score=0;
 }
 
 void play()
