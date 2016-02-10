@@ -2,9 +2,6 @@ class Blob extends GameObject
 {
   PVector velocity;
   float gravity;
-  float platform;
-  float px;
-  float pwidth;
   float jump;
   float speed;
   float ground;
