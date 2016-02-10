@@ -6,6 +6,7 @@ float gx, gy;
 int score;
 int goal;
 float frequency;
+PFont font;
 ArrayList<Greenie> greens = new ArrayList<Greenie>();
 ArrayList<GameObject> gameObjects= new ArrayList<GameObject>();
 
@@ -19,6 +20,7 @@ void setup()
   size(500, 300);
   background(255);
   fill(255);
+  font=createFont("Arial Bold", 18);
   Blob blob = new Blob();
   gameObjects.add(blob);
   goal=5;
@@ -27,11 +29,14 @@ void setup()
 
 void showMenu()
 {
-  background(0);
-  fill(255);
+  background(212, 138, 36);
+  drawWall();
+  fill(255, 0, 0);
+  textFont(font);
   printText("Blob VS Greenies", 32, 100);
-  printText("WAD to move, SPACE to shoot", 12, 200);
-  printText("Press SPACE to play!", 14, 250);
+  fill(0, 255, 0);
+  printText("WAD to move, SPACE to shoot", 12, 150);
+  printText("Press SPACE to play!", 14, 200);
   if (keys[' '])
   {
     state=1;
@@ -41,7 +46,7 @@ void showMenu()
 void gameOver()
 {
   background(0);
-  fill(255);
+  fill(0, 255, 0);
   printText("Blob VS Greenies", 32, 100);
   textSize(20);
   textAlign(CENTER);
@@ -79,6 +84,7 @@ void reset()
 void play()
 {
   background(154, 222, 245);
+  strokeWeight(1);
   drawBorder();
   drawPlatform();
   checkScore();
@@ -113,7 +119,6 @@ void play()
   }
   collide();
 }
-
 
 void collide()
 {
@@ -173,10 +178,47 @@ void printText(String text, int size, int y)
   text(text, x, y);
 }
 
+void drawWall()
+{
+  strokeWeight(1.5);
+  float brick=50;
+  float halfb=25;
+  float x1=halfb;
+  float x2=brick;
+  float y1=0; 
+  float y2=halfb;
+  fill(255);
+  for (int i=0; i<12; i++)
+  {
+    line(0, y1, width, y1);
+    y1+=halfb;
+  }
+  y1=0;
+  for (int j=0; j<12; j++)
+  {
+    for (int i=0; i<10; i++)
+    {
+      line(x1, y1, x1, y2);
+      x1+=brick;
+    }
+    y1=y2;
+    y2+=halfb;
+    for (int i=0; i<10; i++)
+    {
+      line(x2, y1, x2, y2);
+      x2+=brick;
+    }
+    x1=halfb;
+    x2=brick;
+    y1=y2;
+    y2+=halfb;
+  }
+}
+
 void drawBorder()
 {
   println(frequency);
-  text("Score: "+score, 400, 50);
+  text("Score: "+score, 300, 50);
   rectMode(CORNER);
   fill(212, 138, 36);
   strokeWeight(1.5);

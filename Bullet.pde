@@ -10,8 +10,9 @@ class Bullet extends GameObject
   void render()
   {
     pushMatrix();
-    translate(pos.x, pos.y);
+    translate(pos.x, pos.y+5);
     rectMode(CENTER);
+    fill(0);
     rect(0, 0, 10, 2);
     popMatrix();    
   }

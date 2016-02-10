@@ -5,12 +5,13 @@ class Blob extends GameObject
   float jump;
   float speed;
   float ground;
+  float size;
   float dir;
   char up;
   char left;
   char right;
   char shoot;
-
+  
   int lives;
 
   boolean jumpKey = false;
@@ -24,6 +25,7 @@ class Blob extends GameObject
     this.jump=10;
     this.speed=10;
     this.ground=height-75;
+    this.size=25;
     this.dir=0;
     this.left='A';
     this.right='D';
@@ -32,7 +34,7 @@ class Blob extends GameObject
     this.c=color(255, 0, 0);
     lives=5;
   }
-
+  
   int elapsed = 12;
 
   void update()
@@ -111,7 +113,7 @@ class Blob extends GameObject
     stroke(0);
     fill(255, 0, 0);
     ellipseMode(CENTER);
-    ellipse(0, 0, halfw, halfw);
+    ellipse(0, 0, size, size);
     //eyes
     //dir used for flipping the drawing
     fill(255);
