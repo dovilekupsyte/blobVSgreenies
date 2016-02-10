@@ -204,10 +204,27 @@ void drawPlatform()
   px2=px1*3;
   py1=175;
   py2=25;
+  strokeWeight(1.5);
   fill(212, 138, 36);
   rect(px1, py1, px2, py2);
-  println(px1+"\t"+py1);
+  line(px1, py1+12.5, px1+px2, py1+12.5);
+  
+  //bricks
+  float brick=25;
+  float halfb=brick/2;
+  float bx, by;
+  bx=px1+halfb;
+  by=px1+brick;
+  for(int i=0; i<12; i++)
+  {
+    line(bx, py1, bx, py1+halfb);
+    bx=bx+brick;
+    line(by, py1+halfb, by, py1+brick);
+    by=by+brick;
+  }
+  strokeWeight(1);
 }
+
 void draw()
 {
   switch(state)
