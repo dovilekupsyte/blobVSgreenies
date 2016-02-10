@@ -23,14 +23,4 @@ abstract class GameObject
   
   abstract void update();
   abstract void render();
-  
-  boolean collides(GameObject entity)
-  {
-    float check=halfw+entity.halfw;
-    return PVector.dist(pos, entity.pos)<check;
-  }
-  boolean collides(PVector point)
-  {
-    return PVector.dist(point, pos)<halfw;
-  }
 }

@@ -87,7 +87,8 @@ void play()
   drawBorder();
   drawPlatform();
   checkScore();
-
+  
+  //create greeenies from the left side
   if (frameCount % frequency == 0)
   {
     Greenie g2 = new Greenie (1, 1);
@@ -96,6 +97,7 @@ void play()
     g2.pos.y=235;
     gameObjects.add(g2);
   }
+  //create greenies from the right side
   if (score>10)
   {
     if (frameCount % (frequency+30) == 0)
@@ -107,7 +109,8 @@ void play()
       gameObjects.add(g2);
     }
   }
-
+  
+  //calling update and render on all objects
   for (int i = gameObjects.size()-1; i>=0; i--)
   {
     GameObject go = gameObjects.get(i);
@@ -117,6 +120,7 @@ void play()
   collide();
 }
 
+//checking for collisions 
 void collide()
 {
   for (int i=gameObjects.size()-1; i>=0; i--)
@@ -128,6 +132,7 @@ void collide()
       for (int j=gameObjects.size()-1; j>=0; j--)
       {
         GameObject other= gameObjects.get(j);
+        //collisions between greenie and blob
         if (other instanceof Blob)
         {
           if (go.pos.dist(other.pos)<40)
@@ -140,6 +145,7 @@ void collide()
             }
           }
         }
+        //collisions between greenie and bullet
         if (other instanceof Bullet)
         {
           if (go.pos.dist(other.pos)<10)
@@ -160,6 +166,8 @@ void collide()
 
 void checkScore()
 {
+  //checking scores to increase difficulty
+  //i.e. create greenies more frequently
   if (score==goal)
   {
     frequency=frequency-30;
@@ -185,6 +193,8 @@ void drawWall()
   float y1=0; 
   float y2=halfb;
   fill(255);
+  
+  //draw horizontal lines
   for (int i=0; i<12; i++)
   {
     line(0, y1, width, y1);
@@ -193,11 +203,14 @@ void drawWall()
   y1=0;
   for (int j=0; j<12; j++)
   {
+    
+    //draw vertical lines on first row
     for (int i=0; i<10; i++)
     {
       line(x1, y1, x1, y2);
       x1+=brick;
     }
+    //draw vertical lines on second row
     y1=y2;
     y2+=halfb;
     for (int i=0; i<10; i++)

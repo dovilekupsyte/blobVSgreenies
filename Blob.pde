@@ -63,7 +63,7 @@ class Blob extends GameObject
     {
       pos.x=nextPos.x;
     }
-    if (nextPos.y>offset)// && nextPos.y<(height-offset));
+    if (nextPos.y>offset)
     {
       pos.y=nextPos.y;
     }
